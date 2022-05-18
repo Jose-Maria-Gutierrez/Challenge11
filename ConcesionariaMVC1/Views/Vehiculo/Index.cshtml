@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Vehiculo>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Vehiculos disponibles</h2>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-dark d-flex" asp-action="Crear" asp-controller="Vehiculo">Agregar vehiculo</a>
+        </div>
+    </div>
+    <div class="row">
+        @if (Model.Count()==0){
+            <div>
+                <h1 class="text-danger">no hay vehiculos disponibles</h1>
+            </div>
+        }else{
+            <div>
+                <table class="table table-dark">
+                    <thead>
+                        <th>@Html.DisplayNameFor(x=>x.id)</th>
+                        <th>@Html.DisplayNameFor(x=>x.marca)</th>
+                        <th>@Html.DisplayNameFor(x=>x.modelo)</th>
+                        <th>@Html.DisplayNameFor(x=>x.anio)</th>
+                        <th>@Html.DisplayNameFor(x=>x.kilometros)</th>
+                        <th>@Html.DisplayNameFor(x=>x.precio)</th>
+                    </thead>
+                <tbody>
+                    @foreach(var vehiculo in Model)
+                    {
+                     <tr>
+                         <td>@vehiculo.id</td>
+                         <td>@vehiculo.marca</td>
+                         <td>@vehiculo.modelo</td>
+                         <td>@vehiculo.anio</td>
+                         <td>@vehiculo.kilometros</td>
+                         <td>@vehiculo.precio</td>
+                         <td>
+                             <a class="btn btn-outline-success" asp-action="Editar" asp-controller="Vehiculo"
+                             asp-route-id="@vehiculo.id">editar</a>
+                             <a class="btn btn-outline-danger" asp-action="Eliminar" asp-controller="Vehiculo"
+                             asp-route-id="@vehiculo.id">borrar</a>
+                         </td>
+                     </tr>   
+                    }
+                </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
