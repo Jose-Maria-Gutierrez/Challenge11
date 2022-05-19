@@ -54,5 +54,19 @@ namespace ConcesionariaMVC1.Controllers
             return View(v);
         }
 
+        public IActionResult Eliminar(int? id)
+        {
+            Vehiculo v = contexto.Vehiculo.Find(id);
+
+            if (v == null)
+                return NotFound();
+            else
+            {
+                contexto.Vehiculo.Remove(v);
+                contexto.SaveChanges();
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }
