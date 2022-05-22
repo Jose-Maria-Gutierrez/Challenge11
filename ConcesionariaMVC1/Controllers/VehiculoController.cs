@@ -1,4 +1,5 @@
-﻿using ConcesionariaMVC1.Datos;
+﻿using ConcesionariaMVC1.DAL;
+using ConcesionariaMVC1.Datos;
 using ConcesionariaMVC1.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,14 +7,14 @@ namespace ConcesionariaMVC1.Controllers
 {
     public class VehiculoController : Controller
     {
-        private readonly ApplicationDbContext contexto;
-        public VehiculoController(ApplicationDbContext contexto)
+        private readonly UnitOfWork _unitOfWork;
+        public VehiculoController(ApplicationDbContext context)
         {
-            this.contexto = contexto;
+            this._unitOfWork = new UnitOfWork(context);
         }
         public IActionResult Index()
         {
-            IEnumerable<Vehiculo> listaVehiculos = contexto.Vehiculo; 
+            IEnumerable<Vehiculo> listaVehiculos = this._unitOfWork.VehiculoRepository.obtenerTodos(); 
             return View(listaVehiculos);
         }
         public IActionResult Crear()
@@ -25,8 +26,8 @@ namespace ConcesionariaMVC1.Controllers
         {
             if (ModelState.IsValid)
             {
-                contexto.Vehiculo.Add(v);
-                contexto.SaveChanges();
+                this._unitOfWork.VehiculoRepository.agregar(v);
+                this._unitOfWork.guardar();
                 return RedirectToAction("Index");
             }
             return View();
@@ -34,7 +35,7 @@ namespace ConcesionariaMVC1.Controllers
         
         public IActionResult Editar(int? id)
         {
-            Vehiculo v = contexto.Vehiculo.Find(id);
+            Vehiculo v = this._unitOfWork.VehiculoRepository.obtenerId(id);
             
             if (v == null)
                 return NotFound();
@@ -46,8 +47,8 @@ namespace ConcesionariaMVC1.Controllers
         {
             if (ModelState.IsValid)
             {
-                contexto.Vehiculo.Update(v);
-                contexto.SaveChanges();
+                this._unitOfWork.VehiculoRepository.actualizar(v);
+                this._unitOfWork.guardar();
                 return RedirectToAction("Index");
             }
 
@@ -56,16 +57,9 @@ namespace ConcesionariaMVC1.Controllers
 
         public IActionResult Eliminar(int? id)
         {
-            Vehiculo v = contexto.Vehiculo.Find(id);
-
-            if (v == null)
-                return NotFound();
-            else
-            {
-                contexto.Vehiculo.Remove(v);
-                contexto.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            this._unitOfWork.VehiculoRepository.eliminar(id);
+            this._unitOfWork.guardar();
+            return RedirectToAction("Index");
         }
 
     }

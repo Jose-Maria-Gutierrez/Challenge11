@@ -13,8 +13,6 @@ namespace ConcesionariaMVC1.Controllers
             _logger = logger;
         }
 
-        
-
         public IActionResult Index()
         {
             ViewBag.animal = "orangutan";
