@@ -36,7 +36,6 @@ namespace ConcesionariaMVC1.Controllers
         public IActionResult Editar(int? id)
         {
             Vehiculo v = this._unitOfWork.VehiculoRepository.obtenerId(id);
-            
             if (v == null)
                 return NotFound();
 

@@ -6,19 +6,20 @@ namespace ConcesionariaMVC1.DAL
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext context;
-        private VehiculoRepository vehiculoRepository;
+        private IVehiculoRepository vehiculoRepository;
+
         public UnitOfWork(ApplicationDbContext context)
         {
             this.context = context;
         }
-        public VehiculoRepository VehiculoRepository
+        public IVehiculoRepository VehiculoRepository
         {
             get
             {
                 if (this.vehiculoRepository == null)
-                    return new VehiculoRepository(this.context);
-                else
-                    return this.vehiculoRepository;
+                    this.vehiculoRepository = new VehiculoRepository(this.context);
+                
+                return this.vehiculoRepository;
             }
         }
 

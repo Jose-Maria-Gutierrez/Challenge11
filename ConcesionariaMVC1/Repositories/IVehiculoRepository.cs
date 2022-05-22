@@ -2,7 +2,7 @@
 
 namespace ConcesionariaMVC1.Repositories
 {
-    public interface IVehiculoRepository
+    public interface IVehiculoRepository : IRepository<Vehiculo>
     {
         double obtenerPrecio(int? id);
     }
