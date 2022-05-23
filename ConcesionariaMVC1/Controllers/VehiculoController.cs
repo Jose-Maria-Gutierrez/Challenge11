@@ -7,10 +7,10 @@ namespace ConcesionariaMVC1.Controllers
 {
     public class VehiculoController : Controller
     {
-        private readonly UnitOfWork _unitOfWork;
-        public VehiculoController(ApplicationDbContext context)
+        private readonly IUnitOfWork _unitOfWork;
+        public VehiculoController(IUnitOfWork unitOfWork)
         {
-            this._unitOfWork = new UnitOfWork(context);
+            this._unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {

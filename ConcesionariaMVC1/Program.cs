@@ -1,5 +1,6 @@
 using ConcesionariaMVC1.DAL;
 using ConcesionariaMVC1.Datos;
+using ConcesionariaMVC1.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("SQL")));
 
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddTransient<IVehiculoRepository, VehiculoRepository>();
+
 
 var app = builder.Build();
 
